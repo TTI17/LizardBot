@@ -16,6 +16,11 @@ async def start(message: Message):
 async def handleHelp(message: Message):
     await message.answer(text=help_text, reply_markup=get_help_keyboard())
 
+@crt.callback_query(lambda call: call.data == "/faq")
+async def get_help_by_authors(call: CallbackQuery):
+    await call.answer()
+    await call.message.edit_text(text=faq_text, reply_markup=get_faq_help())
+    
 @crt.callback_query(lambda call: call.data == "add")
 async def handleAdd(call: CallbackQuery):
     await call.answer()
