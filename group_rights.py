@@ -15,8 +15,3 @@ async def left_chat_member(message: Message):
     if ContentType.LEFT_CHAT_MEMBER:
         await message.delete()
         await message.answer(f"Пользователь {message.from_user.username} покинул группу")
-
-@group.message()
-async def main(message: Message):
-    if ContentType:
-        await message.answer(f"hello, {message.from_user.username}")
