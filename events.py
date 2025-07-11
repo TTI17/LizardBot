@@ -18,5 +18,5 @@ async def left_chat_member(message: Message):
 
 @event.message()
 async def main(message: Message):
-    if ContentType:
-        await message.answer(f"hello, {message.from_user.username}")
+    if ContentType.TEXT:
+        return
