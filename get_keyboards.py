@@ -22,3 +22,9 @@ def get_user_groups():
 def get_faq_help():
     return InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text="🔙 Вернуться в список", callback_data="back_to_help")]])
+
+def start_vote():
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="👍", callback_data="Yes")],
+        [InlineKeyboardButton(text="👎", callback_data="NOT")],
+    ])
