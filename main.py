@@ -3,12 +3,12 @@ import logging, sys
 from aiogram import Bot, Dispatcher
 from config import TOKEN
 from start import chat_router
-# from events import event
+from events import event
 
 dp = Dispatcher()
 async def main() -> None:
     dp.include_router(chat_router)
-    # dp.include_router(event) #пока что данный импорт не необходим
+    dp.include_router(event)
     bot = Bot(token=TOKEN)
     await dp.start_polling(bot)
 
