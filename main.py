@@ -5,12 +5,15 @@ from start import chat_router
 from events import event
 from dotenv import load_dotenv
 import os
+from aiogram.fsm.storage.memory import MemoryStorage
+from db import init_db
 
 load_dotenv()
 TOKEN = os.getenv("TOKEN")
-dp = Dispatcher()
+dp = Dispatcher(storage=MemoryStorage())
 
 async def main() -> None:
+    init_db()
     dp.include_router(chat_router)
     dp.include_router(event)
     bot = Bot(token=TOKEN)
