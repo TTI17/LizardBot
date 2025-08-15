@@ -10,11 +10,17 @@ crt = chat_router
 
 @crt.message(CommandStart())
 async def start(message: Message):
-    await message.answer(text=start_text)
+    if message.chat.type == "private":
+        await message.answer(text=start_text)
+    else:
+        return 
 
 @crt.message(Command("help"))
 async def handleHelp(message: Message):
-    await message.answer(text=help_text, reply_markup=get_help_keyboard())
+    if message.chat.type == "private":
+        await message.answer(text=help_text, reply_markup=get_help_keyboard())
+    else:
+        return     
 
 @crt.callback_query(lambda call: call.data == "/faq")
 async def get_help_by_authors(call: CallbackQuery):
@@ -26,8 +32,12 @@ async def get_help_by_authors(call: CallbackQuery):
     Args:
         call (CallbackQuery): The inline button callback data.
     """
-    await call.answer()
-    await call.message.edit_text(text=faq_text, reply_markup=get_faq_help())
+    if call.message.chat.type == "private":
+        await call.answer()
+        await call.message.edit_text(text=faq_text, reply_markup=get_faq_help())
+    else:
+        return     
+    
     
 @crt.callback_query(lambda call: call.data == "add")
 async def handleAdd(call: CallbackQuery):
@@ -39,8 +49,11 @@ async def handleAdd(call: CallbackQuery):
     Args:
         call (CallbackQuery): The inline button callback data.
     """
-    await call.answer()
-    await call.message.edit_text(text=add_text, reply_markup=get_invite_keyboard())
+    if call.message.chat.type == "private":
+        await call.answer()
+        await call.message.edit_text(text=add_text, reply_markup=get_invite_keyboard())
+    else:
+        return  
 
 @crt.callback_query(lambda call: call.data == "about_us")
 async def handleAboutUs(call: CallbackQuery):
@@ -52,8 +65,11 @@ async def handleAboutUs(call: CallbackQuery):
     Args:
         call (CallbackQuery): The inline button callback data.
     """ 
-    await call.answer()
-    await call.message.edit_text(text=about_us_text, reply_markup=get_about_us_keyboard())
+    if call.message.chat.type == "private":
+        await call.answer()
+        await call.message.edit_text(text=about_us_text, reply_markup=get_about_us_keyboard())
+    else:
+        return
 
 @crt.callback_query(lambda call: call.data == "back_to_help")
 async def handleBackToHelp(call: CallbackQuery):
@@ -65,8 +81,11 @@ async def handleBackToHelp(call: CallbackQuery):
     Args:
         call (CallbackQuery): The inline button callback data.
     """
-    await call.answer()
-    await call.message.edit_text(text=help_text, reply_markup=get_help_keyboard())
+    if call.message.chat.type == "private":
+        await call.answer()
+        await call.message.edit_text(text=help_text, reply_markup=get_help_keyboard())
+    else:
+        return
 
 @crt.callback_query(lambda call: call.data == "groups")
 async def handleGroups(call: CallbackQuery):
@@ -78,5 +97,9 @@ async def handleGroups(call: CallbackQuery):
     Args:
         call (CallbackQuery): The inline button callback data.
     """
-    await call.answer()
-    await call.message.edit_text(text=f"Группы в которые вы меня добавили:\nПока что эта функция на стадии разработки", reply_markup=get_user_groups())
+    if call.message.chat.type == "private":
+        await call.answer()
+        await call.message.edit_text(text=f"Группы в которые вы меня добавили:\nПока что эта функция на стадии разработки", reply_markup=get_user_groups())
+    
+    else:
+        return
