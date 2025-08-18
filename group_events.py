@@ -4,9 +4,11 @@ from aiogram import Router
 from aiogram.filters import Command
 from aiogram.enums.chat_member_status import ChatMemberStatus
 from get_keyboards import start_vote
-from aiogram import F
+from aiogram import F as Filter
 
 event = Router()
+
+event.message.filter(Filter.)
 
 @event.message(F.is_(ContentType.NEW_CHAT_MEMBERS))
 async def on_new_members(message):
