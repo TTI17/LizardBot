@@ -22,5 +22,5 @@ A Telegram bot with event handling, custom keyboards, and database support.
 ## 🚀 Installation & Launch
 1. Clone the repository:
    ```bash
-   git clone https://github.com/USERNAME/LizardBot-Update.git
+   git clone https://github.com/TTI17/LizardBot-Update.git
    cd LizardBot-Update
