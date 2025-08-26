@@ -28,31 +28,3 @@ def start_vote():
         [InlineKeyboardButton(text="👍", callback_data="Yes")],
         [InlineKeyboardButton(text="👎", callback_data="NOT")],
     ])
-
-from db import get_connection
-
-def groups_keyboard(owner_id):
-    conn = get_connection()
-    cur = conn.cursor()
-    cur.execute("""
-        SELECT c.chat_id, c.title, COUNT(u.user_id) as members_count
-        FROM chats c
-        LEFT JOIN users u ON c.chat_id = u.chat_id
-        WHERE c.owner_id = ?
-        GROUP BY c.chat_id
-    """, (owner_id,))
-    groups = cur.fetchall()
-    conn.close()
-
-    if not groups:
-        return None
-
-    keyboard = InlineKeyboardMarkup(
-        inline_keyboard=[
-            [InlineKeyboardButton(
-                text=f"{title} ({members_count})",
-                callback_data=f"group_{chat_id}"
-            )]
-            for chat_id, title, members_count in groups
-        ]
-    )
