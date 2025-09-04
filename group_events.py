@@ -12,6 +12,9 @@ event = Router()
 
 @event.message(Command("ban"))
 async def ban_chat_member(message: Message):
+    if message.chat.type == "private":
+        await message.delete()
+        return
     if not message.reply_to_message:
         await message.delete()
     else:
@@ -20,6 +23,9 @@ async def ban_chat_member(message: Message):
         
 @event.message(Command("unban"))
 async def unban_chat_member(message:Message):
+    if message.chat.type == "private":
+        await message.delete()
+        return
     if message.reply_to_message:
         await bot.unban_chat_member(chat_id=message.chat.id, user_id=message.reply_to_message.from_user.id, only_if_banned=True)
         await bot.send_message(chat_id=message.reply_to_message.from_user.id, text="Вы были разбанены!")
@@ -28,6 +34,9 @@ async def unban_chat_member(message:Message):
         
 @event.message(Command("mute"))
 async def mute_chat_member(message: Message):
+    if message.chat.type == "private":
+        await message.delete()
+        return
     if message.reply_to_message:
         await bot.restrict_chat_member(
             chat_id=message.chat.id,
