@@ -4,8 +4,8 @@ from aiogram import Router
 from aiogram.filters import Command
 from aiogram.enums.chat_member_status import ChatMemberStatus
 from get_keyboards import start_vote
+from utils.permission import is_admin
 import time
-# from aiogram import F
 from bot import bot
 
 event = Router()
@@ -15,8 +15,13 @@ async def ban_chat_member(message: Message):
     if message.chat.type == "private":
         await message.delete()
         return
+    
+    if not await is_admin(chat_id=message.chat.id, user_id=message.from_user.id):
+        await message.delete()
+    
     if not message.reply_to_message:
         await message.delete()
+    
     else:
         # await message.answer("Проводим голосование", reply_markup=start_vote())
         await bot.ban_chat_member(chat_id=message.chat.id, user_id=message.reply_to_message.from_user.id)
@@ -26,9 +31,11 @@ async def unban_chat_member(message:Message):
     if message.chat.type == "private":
         await message.delete()
         return
+    
     if message.reply_to_message:
         await bot.unban_chat_member(chat_id=message.chat.id, user_id=message.reply_to_message.from_user.id, only_if_banned=True)
         await bot.send_message(chat_id=message.reply_to_message.from_user.id, text="Вы были разбанены!")
+    
     else:
         await message.delete()
         
@@ -37,6 +44,9 @@ async def mute_chat_member(message: Message):
     if message.chat.type == "private":
         await message.delete()
         return
+    if not await is_admin(chat_id=message.chat.id, user_id=message.from_user.id):
+        await message.delete()
+
     if message.reply_to_message:
         await bot.restrict_chat_member(
             chat_id=message.chat.id,
@@ -48,22 +58,16 @@ async def mute_chat_member(message: Message):
             ),
             until_date=time.time() + 60 * 10,
         )
-
-# @event.callback_query(lambda call: call.data == "Yes")
-# async def yes_ban_chat_member(call: CallbackQuery):
-#         await bot.ban_chat_member(chat_id=call.message.chat.id, user_id=call.message.reply_to_message.from_user.id)
-#         await call.message.edit_text(text="Пользователь забанен")
-
-# @event.callback_query(lambda call: call.data == "NOT")
-# async def no_ban_chat_member(call: CallbackQuery):
-#         await call.answer("Пользователь не будет забанен в результате голосования", show_alert=True)
-#         return
+        await message.answer(text=f"Пользователь:<i>{message.reply_to_message.from_user.username}</i> замучен на 10 минут")
 
 @event.message(Command("vote"))
 async def vote(message: Message):
     if message.chat.type in ["group", "supergroup"]:
+        if not await is_admin(chat_id=message.chat.id, user_id=message.from_user.id):
+            await message.delete()
+
         await message.answer(text="Test Func", reply_markup=start_vote())
-        print(message.chat.type)
+    
     else:
         return
     
@@ -71,6 +75,7 @@ async def vote(message: Message):
 async def getHelp(message: Message):
     if message.chat.type in ["group", "supergroup"]:
         await message.answer(text="help")
+    
     else:
         await message.delete()
 
@@ -78,8 +83,10 @@ async def getHelp(message: Message):
 async def get_help(message: Message):
     if message.chat.type == "private":
         return
+    
     else:
         if message.reply_to_message:
             await message.answer(text=f"Мы отправим ваш репорт администраторам на пользователя {message.reply_to_message.from_user.first_name}")
+    
         else:
             await message.answer("Please reply to a message to report it.")
