@@ -1,5 +1,9 @@
 # 🦎 LizardBot
+![Логотип Python](https://example.com/python-logo.png)
+[![License](https://img.shields.io/github/license/TTI17/LizardBot)](https://github.com//LICENSE)
 
+
+-----
 A Telegram bot with event handling, admin commands, custom keyboards, and database support.  
 Supports multiple languages (EN / RU) and works in both private chats and groups.
 
