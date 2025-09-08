@@ -63,4 +63,4 @@ sqlite3 (built-in with Python)
  - Add more languages
 
 📜 License
-MIT License
+[MIT License](https://github.com/TTI17/LizardBot/blob/main/LICENSE)
