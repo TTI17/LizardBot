@@ -61,7 +61,3 @@ async def mute_chat_member(message: Message):
             until_date=time.time() + 60 * 10,
         )
         await message.answer(text=f"Пользователь:<i>{message.reply_to_message.from_user.username}</i> замучен на 10 минут")
-
-@admin.message(Command("getinfo"))
-async def get_info(message: Message):
-    print(await getInfoAboutUser(chat_id=message.chat.id, user_id=message.from_user.id))
