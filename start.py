@@ -2,7 +2,7 @@ from aiogram import Router
 from aiogram.types import Message, CallbackQuery
 from aiogram.filters import CommandStart, Command
 from get_texts import*
-from get_keyboards import *
+from keyboards import *
 # from make_info_to_json import tracking
 
 chat_router = Router(name="startChatRouter")
