@@ -10,15 +10,34 @@ crt = chat_router
 
 @crt.message(CommandStart())
 async def start(message: Message):
+    """
+    Handle the /start button click.
+
+    Displays start content.
+
+    Args:
+        message (Message)
+    """
     if message.chat.type == "private":
-        await message.answer(text=start_text)
+        await message.answer(text=start_text, reply_markup=get_user_language())
+
     else:
         return 
 
 @crt.message(Command("help"))
 async def handleHelp(message: Message):
+    """
+    Handle the /help button click.
+
+    Displays help content and control buttoms.
+
+    Args:
+        message (Message)
+    """
     if message.chat.type == "private":
         await message.answer(text=help_text, reply_markup=get_help_keyboard())
+    # add description for this fuction
+    
     else:
         return     
 
