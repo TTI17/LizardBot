@@ -8,7 +8,7 @@ events = Router(name="groupEvents")
 
 @events.message()
 async def getMessage(message:Message):
-    if message.chat.type not in "private":
+    if message.chat.type in ["group", "supergroup"]:
         await getMessagesByUser(chat_id=message.chat.id, 
                                 user_id=message.from_user.id, 
                                 message_text=message.text)
@@ -19,9 +19,12 @@ async def getMessage(message:Message):
                     username=message.from_user.username, 
                     chat_title=message.chat.title)
     else:
-        pass
+        return
 
 @events.message()
 async def getUser(message:Message):
-    add_user(getInfoAboutUser(chat_id=message.chat.id, 
-                           user_id=message.from_user.id))
+    if message.chat.type in ["group", "supergroup"]:
+        await add_user(getInfoAboutUser(chat_id=message.chat.id, 
+                            user_id=message.from_user.id))
+    else:
+        return
