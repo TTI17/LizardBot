@@ -3,8 +3,9 @@ from aiogram.enums.content_type import ContentType
 from aiogram import Router
 from aiogram.filters import Command
 from aiogram.enums.chat_member_status import ChatMemberStatus
-from get_keyboards import start_vote
-from utils.permission import is_admin, is_member, saveInfoAboutUser
+from keyboards import start_vote, get_help_keyboard
+from utils.permission import is_admin, is_member
+from utils.infoChatUser import saveInfoAboutUser
 import time
 from bot import bot
 
@@ -14,6 +15,7 @@ event = Router(name="commandsAndEventsInGroupRouter")
 async def ban_chat_member(message: Message):
     if message.chat.type == "private":
         await message.delete()
+        await message.answer("Эта команда работает только в группе")
         return
     
     if not await is_admin(chat_id=message.chat.id, user_id=message.from_user.id):
@@ -30,6 +32,7 @@ async def ban_chat_member(message: Message):
 async def unban_chat_member(message:Message):
     if message.chat.type == "private":
         await message.delete()
+        await message.answer("Эта команда работает только в группе")
         return
     
     if message.reply_to_message:
@@ -43,7 +46,9 @@ async def unban_chat_member(message:Message):
 async def mute_chat_member(message: Message):
     if message.chat.type == "private":
         await message.delete()
+        await message.answer("Эта команда работает только в группе")
         return
+    
     if not await is_admin(chat_id=message.chat.id, user_id=message.from_user.id):
         await message.delete()
 
@@ -69,20 +74,28 @@ async def vote(message: Message):
         await message.answer(text="Test Func", reply_markup=start_vote())
     
     else:
+        await message.delete()
+        await message.answer("Эта команда работает только в группе")
         return
     
 @event.message(Command("get_help"))
 async def getHelp(message: Message):
-    if await is_member(chat_id=message.shat.id, user_id=message.from_user.id):
-        if message.chat.type in ["group", "supergroup"]:
-            await message.answer(text="help")
+    if not await is_member(chat_id=message.chat.id, user_id=message.from_user.id):
+        await message.delete()
     
+    if message.chat.type in ["group", "supergroup"]:
+        await message.answer(text="help")
+
     else:
         await message.delete()
-
+        await message.answer("Эта команда работает только в группе. Для получения дополнитльной информации нажмите на один из этих пунктов", reply_markup=get_help_keyboard())
+        return
+            
 @event.message(Command("report"))
 async def get_help(message: Message):
     if message.chat.type == "private":
+        await message.delete()
+        await message.answer("Эта команда работает только в группе. Для получения дополнитльной информации нажмите на один из этих пунктов", reply_markup=get_help_keyboard())
         return
     
     else:
