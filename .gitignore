@@ -4,4 +4,3 @@ __pycache__/
 *.pyc
 .vscode/
 data.db
-group.py
