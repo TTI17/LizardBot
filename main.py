@@ -2,7 +2,7 @@ import asyncio
 import logging, sys
 from aiogram import Dispatcher
 from start import chat_router
-from group_events import event
+from group import event
 from aiogram.fsm.storage.memory import MemoryStorage
 from db import init_db
 from bot import bot
