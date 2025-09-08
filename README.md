@@ -1,7 +1,7 @@
 # 🦎 LizardBot
 ![LizardBot](https://github.com/TTI17/LizardBot/blob/main/src/banner.jpg)
 
-[![License](https://img.shields.io/github/license/TTI17/LizardBot)](https://github.com//LICENSE)
+[![License](https://img.shields.io/github/license/TTI17/LizardBot)](https://github.com/TTI17/LizardBot/blob/main/LICENSE)
 
 
 -----
