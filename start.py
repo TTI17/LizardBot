@@ -5,7 +5,7 @@ from get_texts import*
 from get_keyboards import *
 # from make_info_to_json import tracking
 
-chat_router = Router()
+chat_router = Router(name="startChatRouter")
 crt = chat_router
 
 @crt.message(CommandStart())

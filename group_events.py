@@ -4,11 +4,11 @@ from aiogram import Router
 from aiogram.filters import Command
 from aiogram.enums.chat_member_status import ChatMemberStatus
 from get_keyboards import start_vote
-from utils.permission import is_admin
+from utils.permission import is_admin, is_member, saveInfoAboutUser
 import time
 from bot import bot
 
-event = Router()
+event = Router(name="commandsAndEventsInGroupRouter")
 
 @event.message(Command("ban"))
 async def ban_chat_member(message: Message):
@@ -73,8 +73,9 @@ async def vote(message: Message):
     
 @event.message(Command("get_help"))
 async def getHelp(message: Message):
-    if message.chat.type in ["group", "supergroup"]:
-        await message.answer(text="help")
+    if await is_member(chat_id=message.shat.id, user_id=message.from_user.id):
+        if message.chat.type in ["group", "supergroup"]:
+            await message.answer(text="help")
     
     else:
         await message.delete()
@@ -85,8 +86,13 @@ async def get_help(message: Message):
         return
     
     else:
-        if message.reply_to_message:
-            await message.answer(text=f"Мы отправим ваш репорт администраторам на пользователя {message.reply_to_message.from_user.first_name}")
-    
-        else:
-            await message.answer("Please reply to a message to report it.")
+        if await is_member(chat_id=message.chat.id, user_id=message.from_user.id):
+            if message.reply_to_message:
+                await message.answer(text=f"Мы отправим ваш репорт администраторам на пользователя {message.reply_to_message.from_user.first_name}")
+        
+            else:
+                await message.answer("Please reply to a message to report it.")
+
+@event.message(Command('getinfo'))
+async def start_handler(message: Message):
+    print(await saveInfoAboutUser(user_id=message.from_user.id, chat_id=message.chat.id))
