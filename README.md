@@ -50,7 +50,7 @@ Install dependencies:
 ```
 pip install -r requirements.txt
 Run the bot:
-python start.py
+python main.py
 ```
 🛠 Requirements
 ```
