@@ -1,5 +1,5 @@
 # 🦎 LizardBot
-![Логотип Python](https://github.com/TTI17/LizardBot/src/banner.jpg)
+![LizardBot](https://github.com/TTI17/LizardBot/blob/main/src/banner.jpg)
 
 [![License](https://img.shields.io/github/license/TTI17/LizardBot)](https://github.com//LICENSE)
 
