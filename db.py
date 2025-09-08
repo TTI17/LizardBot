@@ -31,7 +31,7 @@ def init_db():
         first_name TEXT,
         last_name TEXT,
         username TEXT,
-        role TEXT,
+        status TEXT,
         chat_id INTEGER,
         messages_count INTEGER DEFAULT 0,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -68,13 +68,13 @@ def add_chat(chat_id, title, username, type_, member_count, admin_count, owner_i
     conn.close()
 
 # Добавить пользователя
-def add_user(user_id, first_name, last_name, username, role, chat_id):
+def add_user(user_id, first_name, last_name, username, status, chat_id):
     conn = get_connection()
     cur = conn.cursor()
     cur.execute("""
-        INSERT OR REPLACE INTO users (user_id, first_name, last_name, username, role, chat_id)
+        INSERT OR REPLACE INTO users (user_id, first_name, last_name, username, status, chat_id)
         VALUES (?, ?, ?, ?, ?, ?)
-    """, (user_id, first_name, last_name, username, role, chat_id))
+    """, (user_id, first_name, last_name, username, status, chat_id))
     conn.commit()
     conn.close()
 
