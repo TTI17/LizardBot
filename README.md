@@ -37,8 +37,8 @@ Supports multiple languages (EN / RU) and works in both private chats and groups
 ## 🚀 Installation & Launch
 1. Clone the repository:
    ```
-   git clone https://github.com/TTI17/LizardBot-Update.git
-   cd LizardBot-Update
+   git clone https://github.com/TTI17/LizardBot.git
+   cd LizardBot
    ```
 Create & activate virtual environment (recommended):
 ```
@@ -51,12 +51,6 @@ Install dependencies:
 pip install -r requirements.txt
 Run the bot:
 python main.py
-```
-🛠 Requirements
-```
-Python 3.10+
-aiogram
-sqlite3 (built-in with Python)
 ```
 📌 TODO / Plans
  - Add more commands for group management
