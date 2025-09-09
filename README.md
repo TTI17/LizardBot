@@ -40,19 +40,19 @@ Supports multiple languages (EN / RU) and works in both private chats and groups
    git clone https://github.com/TTI17/LizardBot.git
    cd LizardBot
    ```
-Create & activate virtual environment (recommended):
+### Create & activate virtual environment (recommended):
 ```
 python -m venv venv
 source venv/bin/activate   # Linux / MacOS
 venv\\Scripts\\activate      # Windows
 ```
-Install dependencies:
+### Install dependencies:
 ```
 pip install -r requirements.txt
 Run the bot:
 python main.py
 ```
-📌 TODO / Plans
+### 📌 TODO / Plans
  - Add more commands for group management
 
  - Extend database features
@@ -61,5 +61,5 @@ python main.py
 
  - Add more languages
 
-📜 License
+### 📜 License
 [MIT License](https://github.com/TTI17/LizardBot/blob/main/LICENSE)
