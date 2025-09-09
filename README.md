@@ -1,7 +1,7 @@
 # 🦎 LizardBot
-![Логотип Python](https://github.com/TTI17/LizardBot/src/banner.jpg)
+![LizardBot](https://github.com/TTI17/LizardBot/blob/main/src/banner.jpg)
 
-[![License](https://img.shields.io/github/license/TTI17/LizardBot)](https://github.com//LICENSE)
+[![License](https://img.shields.io/github/license/TTI17/LizardBot)](https://github.com/TTI17/LizardBot/blob/main/LICENSE)
 
 
 -----
@@ -37,28 +37,22 @@ Supports multiple languages (EN / RU) and works in both private chats and groups
 ## 🚀 Installation & Launch
 1. Clone the repository:
    ```
-   git clone https://github.com/TTI17/LizardBot-Update.git
-   cd LizardBot-Update
+   git clone https://github.com/TTI17/LizardBot.git
+   cd LizardBot
    ```
-Create & activate virtual environment (recommended):
+### Create & activate virtual environment (recommended):
 ```
 python -m venv venv
 source venv/bin/activate   # Linux / MacOS
 venv\\Scripts\\activate      # Windows
 ```
-Install dependencies:
+### Install dependencies:
 ```
 pip install -r requirements.txt
 Run the bot:
-python start.py
+python main.py
 ```
-🛠 Requirements
-```
-Python 3.10+
-aiogram
-sqlite3 (built-in with Python)
-```
-📌 TODO / Plans
+### 📌 TODO / Plans
  - Add more commands for group management
 
  - Extend database features
@@ -67,5 +61,5 @@ sqlite3 (built-in with Python)
 
  - Add more languages
 
-📜 License
+### 📜 License
 [MIT License](https://github.com/TTI17/LizardBot/blob/main/LICENSE)
