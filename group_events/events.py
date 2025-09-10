@@ -1,8 +1,8 @@
 from aiogram import Router
 from aiogram.types import Message
-from aiogram.handlers.message import MessageHandler
 from utils.infoChatUser import getMessagesByUser, getInfoAboutUser
 from db import add_message, add_user
+from utils.permission import is_member
 
 events = Router(name="groupEvents")
 
