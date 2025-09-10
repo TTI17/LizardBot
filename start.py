@@ -3,13 +3,12 @@ from aiogram.types import Message, CallbackQuery
 from aiogram.filters import CommandStart, Command
 from utils.texts import get_lang
 from keyboards import *
-from utils.texts.ru import *
 
 chat_router = Router(name="startChatRouter")
 crt = chat_router
 
 @crt.message(CommandStart())
-async def start(message: Message):
+async def startChat(message: Message):
     """
     Handle the /start button click.
 
@@ -27,8 +26,12 @@ async def start(message: Message):
 @crt.callback_query(lambda call: call.data == "ru" or call.data == "en")
 async def greatUser(call: CallbackQuery):
     if call.message.chat.type == "private":
+        global selectLang
         selectLang = call.data
         await call.message.answer(text=get_lang(selectLang).START_TEXT)
+
+    else:
+        return
 
 @crt.message(Command("help"))
 async def handleHelp(message: Message):
@@ -41,8 +44,7 @@ async def handleHelp(message: Message):
         message (Message)
     """
     if message.chat.type == "private":
-        await message.answer(text=help_text.HELP_TEXT, reply_markup=get_help_keyboard())
-    # add description for this fuction
+        await message.answer(text=get_lang(selectLang).HELP_TEXT, reply_markup=get_help_keyboard())
     
     else:
         return     
@@ -59,7 +61,7 @@ async def get_help_by_authors(call: CallbackQuery):
     """
     if call.message.chat.type == "private":
         await call.answer()
-        await call.message.edit_text(text=faq_text.FAQ_TEXT, reply_markup=get_faq_help())
+        await call.message.edit_text(text=get_lang(selectLang).FAQ_TEXT, reply_markup=get_faq_help())
     else:
         return     
     
@@ -76,7 +78,7 @@ async def handleAdd(call: CallbackQuery):
     """
     if call.message.chat.type == "private":
         await call.answer()
-        await call.message.edit_text(text=add_bot_to_chat_text.ADD_BOT_TEXT, reply_markup=get_invite_keyboard())
+        await call.message.edit_text(text=get_lang(selectLang).ADD_BOT_TEXT, reply_markup=get_invite_keyboard())
     else:
         return  
 
@@ -92,7 +94,7 @@ async def handleAboutUs(call: CallbackQuery):
     """ 
     if call.message.chat.type == "private":
         await call.answer()
-        await call.message.edit_text(text=about_us_text.ABOUT_US_TEXT, reply_markup=get_about_us_keyboard())
+        await call.message.edit_text(text=get_lang(selectLang).ABOUT_US_TEXT, reply_markup=get_about_us_keyboard())
     else:
         return
 
@@ -108,7 +110,7 @@ async def handleBackToHelp(call: CallbackQuery):
     """
     if call.message.chat.type == "private":
         await call.answer()
-        await call.message.edit_text(text=help_text.HELP_TEXT, reply_markup=get_help_keyboard())
+        await call.message.edit_text(text=get_lang(selectLang).HELP_TEXT, reply_markup=get_help_keyboard())
     else:
         return
 
@@ -124,7 +126,7 @@ async def handleGroups(call: CallbackQuery):
     """
     if call.message.chat.type == "private":
         await call.answer()
-        await call.message.edit_text(text=f"Группы в которые вы меня добавили:\nПока что эта функция на стадии разработки", reply_markup=get_user_groups())
+        await call.message.edit_text(text=get_lang(selectLang).GROUP_LIST_TEXT, reply_markup=get_user_groups())
     
     else:
         return
