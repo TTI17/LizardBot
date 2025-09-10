@@ -17,7 +17,9 @@ async def ban_chat_member(message: Message):
     
     if not await is_admin(chat_id=message.chat.id, user_id=message.from_user.id):
         await message.delete()
-    
+        await message.answer("Для использования данной команды вам необходимо быть администратором")
+        return
+
     if not message.reply_to_message:
         await message.delete()
     
@@ -30,6 +32,11 @@ async def unban_chat_member(message:Message):
     if message.chat.type == "private":
         await message.delete()
         await message.answer("Эта команда работает только в группе")
+        return
+    
+    if not await is_admin(chat_id=message.chat.id, user_id=message.from_user.id):
+        await message.delete()
+        await message.answer("Для использования данной команды вам необходимо быть администратором")
         return
     
     if message.reply_to_message:
@@ -48,6 +55,8 @@ async def mute_chat_member(message: Message):
     
     if not await is_admin(chat_id=message.chat.id, user_id=message.from_user.id):
         await message.delete()
+        await message.answer("Для использования данной команды вам необходимо быть администратором")
+        return
 
     if message.reply_to_message:
         await bot.restrict_chat_member(
