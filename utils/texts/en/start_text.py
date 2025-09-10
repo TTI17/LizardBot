@@ -1,4 +1,4 @@
-start = """
+START_TEXT = """
 Hello! I am your universal assistant for moderating groups in Telegram. I can:
 
 Moderate groups to ensure compliance with rules and order.
