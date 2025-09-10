@@ -1,0 +1,1 @@
+GROUP_LIST_TEXT =f"Groups where you added me:\nThis feature is still under development"
