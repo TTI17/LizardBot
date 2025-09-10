@@ -3,6 +3,7 @@ from aiogram.types import Message, CallbackQuery
 from aiogram.filters import CommandStart, Command
 from utils.texts import get_lang
 from keyboards import *
+from utils.texts.ru import *
 
 chat_router = Router(name="startChatRouter")
 crt = chat_router
