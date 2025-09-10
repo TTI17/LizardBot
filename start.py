@@ -1,9 +1,8 @@
 from aiogram import Router
 from aiogram.types import Message, CallbackQuery
 from aiogram.filters import CommandStart, Command
-from get_texts import*
+from utils.texts import get_lang
 from keyboards import *
-# from make_info_to_json import tracking
 
 chat_router = Router(name="startChatRouter")
 crt = chat_router
@@ -19,10 +18,16 @@ async def start(message: Message):
         message (Message)
     """
     if message.chat.type == "private":
-        await message.answer(text=start_text, reply_markup=get_user_language())
+        await message.answer(text="Select language:", reply_markup=get_user_language())
 
     else:
         return 
+
+@crt.callback_query(lambda call: call.data == "ru" or call.data == "en")
+async def greatUser(call: CallbackQuery):
+    if call.message.chat.type == "private":
+        selectLang = call.data
+        await call.message.answer(text=get_lang(selectLang).START_TEXT)
 
 @crt.message(Command("help"))
 async def handleHelp(message: Message):
@@ -35,7 +40,7 @@ async def handleHelp(message: Message):
         message (Message)
     """
     if message.chat.type == "private":
-        await message.answer(text=help_text, reply_markup=get_help_keyboard())
+        await message.answer(text=help_text.HELP_TEXT, reply_markup=get_help_keyboard())
     # add description for this fuction
     
     else:
@@ -53,7 +58,7 @@ async def get_help_by_authors(call: CallbackQuery):
     """
     if call.message.chat.type == "private":
         await call.answer()
-        await call.message.edit_text(text=faq_text, reply_markup=get_faq_help())
+        await call.message.edit_text(text=faq_text.FAQ_TEXT, reply_markup=get_faq_help())
     else:
         return     
     
@@ -70,7 +75,7 @@ async def handleAdd(call: CallbackQuery):
     """
     if call.message.chat.type == "private":
         await call.answer()
-        await call.message.edit_text(text=add_text, reply_markup=get_invite_keyboard())
+        await call.message.edit_text(text=add_bot_to_chat_text.ADD_BOT_TEXT, reply_markup=get_invite_keyboard())
     else:
         return  
 
@@ -86,7 +91,7 @@ async def handleAboutUs(call: CallbackQuery):
     """ 
     if call.message.chat.type == "private":
         await call.answer()
-        await call.message.edit_text(text=about_us_text, reply_markup=get_about_us_keyboard())
+        await call.message.edit_text(text=about_us_text.ABOUT_US_TEXT, reply_markup=get_about_us_keyboard())
     else:
         return
 
@@ -102,7 +107,7 @@ async def handleBackToHelp(call: CallbackQuery):
     """
     if call.message.chat.type == "private":
         await call.answer()
-        await call.message.edit_text(text=help_text, reply_markup=get_help_keyboard())
+        await call.message.edit_text(text=help_text.HELP_TEXT, reply_markup=get_help_keyboard())
     else:
         return
 

@@ -31,6 +31,6 @@ def start_vote():
 
 def get_user_language():
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="🇺🇸 EN", callback_data="eng_lang")],
-        [InlineKeyboardButton(text="🇷🇺 RU", callback_data="rus_lang")]
+        [InlineKeyboardButton(text="🇺🇸 EN", callback_data="en")],
+        [InlineKeyboardButton(text="🇷🇺 RU", callback_data="ru")]
     ])
