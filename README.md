@@ -1,8 +1,8 @@
 # 🦎 LizardBot
+
 ![LizardBot](https://github.com/TTI17/LizardBot/blob/main/src/banner.jpg)
 
 [![License](https://img.shields.io/github/license/TTI17/LizardBot)](https://github.com/TTI17/LizardBot/blob/main/LICENSE)
-
 
 -----
 A Telegram bot with event handling, admin commands, custom keyboards, and database support.  
@@ -11,6 +11,7 @@ Supports multiple languages (EN / RU) and works in both private chats and groups
 ---
 
 ## 📌 Features
+
 - 🗨️ Handles private & group events  
 - 👮 Admin & member commands  
 - 🎛️ Custom inline/reply keyboards  
@@ -21,6 +22,7 @@ Supports multiple languages (EN / RU) and works in both private chats and groups
 ---
 
 ## 📂 Project Structure
+
 - main.py — main bot logic  
 - start.py — entry point (launch)  
 - bot.py — bot initialization  
@@ -35,31 +37,40 @@ Supports multiple languages (EN / RU) and works in both private chats and groups
 ---
 
 ## 🚀 Installation & Launch
+
 1. Clone the repository:
-   ```
+
+   ```python
    git clone https://github.com/TTI17/LizardBot.git
    cd LizardBot
    ```
-### Create & activate virtual environment (recommended):
+
+### Create & activate virtual environment (recommended)
+
 ```
 python -m venv venv
 source venv/bin/activate   # Linux / MacOS
 venv\\Scripts\\activate      # Windows
 ```
-### Install dependencies:
+
+### Install dependencies
+
 ```
 pip install -r requirements.txt
 Run the bot:
 python main.py
 ```
+
 ### 📌 TODO / Plans
- - Add more commands for group management
 
- - Extend database features
+- Add more commands for group management
 
- - Improve admin panel
+- Extend database features
 
- - Add more languages
+- Improve admin panel
+
+- Add more languages
 
 ### 📜 License
+
 [MIT License](https://github.com/TTI17/LizardBot/blob/main/LICENSE)
