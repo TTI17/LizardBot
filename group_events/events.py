@@ -28,3 +28,5 @@ async def getUser(message:Message):
                             user_id=message.from_user.id))
     else:
         return
+    
+#TODO need add more comamnds for enteractions with users
