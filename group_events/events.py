@@ -6,6 +6,7 @@ from utils.permission import is_member
 from aiogram import F
 from aiogram.types import ChatMemberUpdated
 from bot import bot
+from keyboards import get_rules_keyboard
 
 events = Router(name="groupEvents")
 
@@ -35,14 +36,12 @@ async def getUser(message:Message):
 @events.chat_member()
 async def joined_user(event: ChatMemberUpdated):
     if event.new_chat_member.status == "member":
-        await bot.delete_message(event.chat.id, event.message.message_id)
-
         await bot.send_message(event.chat.id, 
-                               text=f"Welcome, {event.from_user.full_name}!")
+                               text=f"Добро Пожаловать, {event.from_user.full_name} в <i>{event.chat.full_name}</i>!\n\nДля ознакомления с правилами группы введи команду /rules или нажми кнопку ниже", reply_markup=get_rules_keyboard(chat_name=event.chat.full_name))
         for admin in await bot.get_chat_administrators(event.chat.id):
             if not admin.user.is_bot:
                 await bot.send_message(chat_id=admin.user.id, 
-                                    text=f"New user in {event.chat.full_name}: @{event.from_user.first_name}")
+                                    text=f"Поздравляю <b>{admin.user.username}</b> в группу {event.chat.full_name} присоединился новый пользователь:\nИмя: {event.from_user.first_name}\nФамилия: {event.from_user.last_name if event.from_user.last_name != "" else "Не записана"}\nЮзернейм: @{event.from_user.username}")
 
 # @events.chat_member()
 # async def left_user(event: ChatMemberUpdated):

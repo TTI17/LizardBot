@@ -1,8 +1,10 @@
 from aiogram import Router
 from aiogram.filters import Command
-from aiogram.types import Message
+from aiogram.types import Message, CallbackQuery
 from utils.permission import is_member
-from keyboards import get_help_keyboard
+from keyboards import get_help_keyboard, get_rules_keyboard
+from bot import bot
+from time import sleep
 
 member = Router(name="memberRouter")
 
@@ -33,3 +35,22 @@ async def get_help(message: Message):
         
             else:
                 await message.answer("Please reply to a message to report it.")
+
+@member.message(Command("rules"))
+async def get_rules(message: Message):
+    if message.chat.type == "private":
+        await message.delete()
+        await message.answer("Эта команда работает только в группе. Для получения дополнитльной информации нажмите на один из этих пунктов", reply_markup=get_help_keyboard())
+        return
+    
+    else:
+        await bot.edit_message_text(chat_id=message.chat.id, message_id=message.message_id-1, text="Данные правила были созданы владельцем данной группы.\n\nРазработчик бота не несет ответственности за написанное в данных правилах.\n\nПРАВИЛА:\nНа данный момент данная функция разрабатвается")
+        sleep(60)
+        await message.delete()
+
+@member.callback_query(lambda call: call.data == "rules")
+async def get_rules_callback(call: CallbackQuery):
+    await call.answer()
+    await call.message.edit_text(text="Данные правила были созданы владельцем данной группы.\n\nРазработчик бота не несет ответственности за написанное в данных правилах.\n\nПРАВИЛА:\nНа данный момент данная функция разрабатвается")
+    sleep(60)
+    await call.message.delete()
