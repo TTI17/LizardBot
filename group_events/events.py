@@ -33,21 +33,24 @@ async def getUser(message:Message):
         return
 
 @events.chat_member()
-async def joinedUser(event: ChatMemberUpdated):
+async def joined_user(event: ChatMemberUpdated):
     if event.new_chat_member.status == "member":
+        await bot.delete_message(event.chat.id, event.message.message_id)
+
         await bot.send_message(event.chat.id, 
                                text=f"Welcome, {event.from_user.full_name}!")
         for admin in await bot.get_chat_administrators(event.chat.id):
-            if admin.status != "bot":
-                await bot.send_message(admin.user.id, 
+            if not admin.user.is_bot:
+                await bot.send_message(chat_id=admin.user.id, 
                                     text=f"New user in {event.chat.full_name}: @{event.from_user.first_name}")
 
-@events.chat_member()
-async def leftUser(event: ChatMemberUpdated):
-    if event.old_chat_member.status == "member":
-        for admin in await bot.get_chat_administrators(event.chat.id):
-            if admin.status != "bot":
-                await bot.send_message(admin.user.id, 
-                                    text=f"User left {event.chat.full_name}: @{event.from_user.first_name}")
+# @events.chat_member()
+# async def left_user(event: ChatMemberUpdated):
+#     if event.old_chat_member.status == "member":
+#         await bot.delete_message(event.chat.id, event.message.message_id)
+#         for admin in await bot.get_chat_administrators(event.chat.id):
+#             if not admin.user.is_bot:
+#                 await bot.send_message(chat_id=int(admin.user.id), 
+#                                     text=f"User left {event.chat.full_name}: @{event.from_user.first_name}")
 
 #TODO need add more comamnds for enteractions with users
