@@ -41,15 +41,16 @@ async def joined_user(event: ChatMemberUpdated):
         for admin in await bot.get_chat_administrators(event.chat.id):
             if not admin.user.is_bot:
                 await bot.send_message(chat_id=admin.user.id, 
-                                    text=f"Поздравляю <b>{admin.user.username}</b> в группу {event.chat.full_name} присоединился новый пользователь:\nИмя: {event.from_user.first_name}\nФамилия: {event.from_user.last_name if event.from_user.last_name != "" else "Не записана"}\nЮзернейм: @{event.from_user.username}")
+                                    text=f"Поздравляю <b>{admin.user.username}</b>\n \n В группу {event.chat.full_name} присоединился новый пользователь:\nИмя: {event.from_user.first_name}\nФамилия: {event.from_user.last_name if event.from_user.last_name != "" else "Не записана"}\nЮзернейм: @{event.from_user.username if event.from_user.username != None else "Нет юзернейма"}")
 
-# @events.chat_member()
-# async def left_user(event: ChatMemberUpdated):
-#     if event.old_chat_member.status == "member":
-#         await bot.delete_message(event.chat.id, event.message.message_id)
-#         for admin in await bot.get_chat_administrators(event.chat.id):
-#             if not admin.user.is_bot:
-#                 await bot.send_message(chat_id=int(admin.user.id), 
-#                                     text=f"User left {event.chat.full_name}: @{event.from_user.first_name}")
+@events.chat_member()
+async def left_user(event: ChatMemberUpdated):
+    # if event.status == "left":
+        await bot.delete_message(event.chat.id, 
+                                event.message.message_id)
+        for admin in await bot.get_chat_administrators(event.chat.id):
+            if not admin.user.is_bot:
+                await bot.send_message(chat_id=admin.user.id, 
+                                    text=f"Пользователь <b>{event.from_user.full_name}</b> покинул группу {event.chat.full_name}")
 
 #TODO need add more comamnds for enteractions with users
