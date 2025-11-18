@@ -1,13 +1,13 @@
 import asyncio
 import logging, sys
 from aiogram import Dispatcher
-from start import chat_router
 from aiogram.fsm.storage.memory import MemoryStorage
-from db import init_db
-from bot import bot
+from start import chat_router
 from group_events.admin_commands import admin
 from group_events.member_commands import member
 from group_events.events import events
+from db import init_db
+from bot import bot
 
 dp = Dispatcher(storage=MemoryStorage())
 
