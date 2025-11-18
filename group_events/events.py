@@ -32,7 +32,7 @@ async def getUser(message:Message):
                             user_id=message.from_user.id))
     else:
         return
-
+    
 @events.chat_member()
 async def joined_user(event: ChatMemberUpdated):
     if event.new_chat_member.status == "member":
