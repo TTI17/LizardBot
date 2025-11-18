@@ -44,9 +44,12 @@ async def get_rules(message: Message):
         return
     
     else:
-        await bot.edit_message_text(chat_id=message.chat.id, message_id=message.message_id-1, text="Данные правила были созданы владельцем данной группы.\n\nРазработчик бота не несет ответственности за написанное в данных правилах.\n\nПРАВИЛА:\nНа данный момент данная функция разрабатвается")
-        sleep(60)
-        await message.delete()
+        try:
+            await bot.edit_message_text(chat_id=message.chat.id, message_id=message.message_id-1, text="Данные правила были созданы владельцем данной группы.\n\nРазработчик бота не несет ответственности за написанное в данных правилах.\n\nПРАВИЛА:\nНа данный момент данная функция разрабатвается")
+            sleep(60)
+            await message.delete()
+        except Exception as e:
+            await message.answer(text="Данные правила были созданы владельцем данной группы.\n\nРазработчик бота не несет ответственности за написанное в данных правилах.\n\nПРАВИЛА:\nНа данный момент данная функция разрабатвается")
 
 @member.callback_query(lambda call: call.data == "rules")
 async def get_rules_callback(call: CallbackQuery):
