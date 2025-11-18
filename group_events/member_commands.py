@@ -4,7 +4,8 @@ from aiogram.types import Message, CallbackQuery
 from utils.permission import is_member
 from keyboards import get_help_keyboard, get_rules_keyboard
 from bot import bot
-from time import sleep
+from utils.delete_utils import delete_after_delay
+import asyncio
 
 member = Router(name="memberRouter")
 
@@ -22,7 +23,7 @@ async def getHelp(message: Message):
         return
             
 @member.message(Command("report"))
-async def get_help(message: Message):
+async def send_report(message: Message):
     if message.chat.type == "private":
         await message.delete()
         await message.answer("Эта команда работает только в группе. Для получения дополнитльной информации нажмите на один из этих пунктов", reply_markup=get_help_keyboard())
@@ -46,14 +47,15 @@ async def get_rules(message: Message):
     else:
         try:
             await bot.edit_message_text(chat_id=message.chat.id, message_id=message.message_id-1, text="Данные правила были созданы владельцем данной группы.\n\nРазработчик бота не несет ответственности за написанное в данных правилах.\n\nПРАВИЛА:\nНа данный момент данная функция разрабатвается")
-            sleep(60)
-            await message.delete()
+            asyncio.create_task(delete_after_delay(chat_id=message.chat.id,
+                                                   message_id=message.message_id-1))
         except Exception as e:
             await message.answer(text="Данные правила были созданы владельцем данной группы.\n\nРазработчик бота не несет ответственности за написанное в данных правилах.\n\nПРАВИЛА:\nНа данный момент данная функция разрабатвается")
+            asyncio.create_task(delete_after_delay(chat_id=message.chat.id,
+                                                   message_id=message.message_id-1))
 
 @member.callback_query(lambda call: call.data == "rules")
 async def get_rules_callback(call: CallbackQuery):
     await call.answer()
     await call.message.edit_text(text="Данные правила были созданы владельцем данной группы.\n\nРазработчик бота не несет ответственности за написанное в данных правилах.\n\nПРАВИЛА:\nНа данный момент данная функция разрабатвается")
-    sleep(60)
-    await call.message.delete()
+    asyncio.create_task(delete_after_delay(chat_id=call.message.chat.id, message_id=call.message.message_id))

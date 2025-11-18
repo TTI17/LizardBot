@@ -53,4 +53,12 @@ async def left_user(event: ChatMemberUpdated):
                 await bot.send_message(chat_id=admin.user.id, 
                                     text=f"Пользователь <b>{event.from_user.full_name}</b> покинул группу {event.chat.full_name}")
 
+@events.chat_member()
+async def restricted_user(event: ChatMemberUpdated):
+    """ this function work with restricted users event
+        need a make handler about this status
+        Right now its not work and need fix left user in other branch
+    """
+    return
+
 #TODO need add more comamnds for enteractions with users
