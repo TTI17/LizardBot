@@ -49,7 +49,6 @@ async def get_rules(message: Message):
             await bot.edit_message_text(chat_id=message.chat.id, message_id=message.message_id-1, text="Данные правила были созданы владельцем данной группы.\n\nРазработчик бота не несет ответственности за написанное в данных правилах.\n\nПРАВИЛА:\nНа данный момент данная функция разрабатвается")
             asyncio.create_task(delete_after_delay(chat_id=message.chat.id,
                                                    message_id=message.message_id-1))
-            # await message.delete()
         except Exception as e:
             await message.answer(text="Данные правила были созданы владельцем данной группы.\n\nРазработчик бота не несет ответственности за написанное в данных правилах.\n\nПРАВИЛА:\nНа данный момент данная функция разрабатвается")
             asyncio.create_task(delete_after_delay(chat_id=message.chat.id,
@@ -60,4 +59,3 @@ async def get_rules_callback(call: CallbackQuery):
     await call.answer()
     await call.message.edit_text(text="Данные правила были созданы владельцем данной группы.\n\nРазработчик бота не несет ответственности за написанное в данных правилах.\n\nПРАВИЛА:\nНа данный момент данная функция разрабатвается")
     asyncio.create_task(delete_after_delay(chat_id=call.message.chat.id, message_id=call.message.message_id))
-    # await call.message.delete()
