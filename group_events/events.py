@@ -55,7 +55,7 @@ async def left_user(event: ChatMemberUpdated):
 
 @events.chat_member()
 async def restricted_user(event: ChatMemberUpdated):
-    """ this fucntion work with restricted users event
+    """ this function work with restricted users event
         need a make handler about this status
         Right now its not work and need fix left user in other branch
     """
