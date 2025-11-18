@@ -45,7 +45,7 @@ async def joined_user(event: ChatMemberUpdated):
 
 @events.chat_member()
 async def left_user(event: ChatMemberUpdated):
-    # if event.status == "left":
+    if event.old_chat_member.status == 'left':
         await bot.delete_message(event.chat.id, 
                                 event.message.message_id)
         for admin in await bot.get_chat_administrators(event.chat.id):
