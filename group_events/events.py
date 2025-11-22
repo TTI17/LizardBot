@@ -1,12 +1,12 @@
-from aiogram import Router
+from aiogram import Router, F
 from aiogram.types import Message
-from utils.infoChatUser import getMessagesByUser, getInfoAboutUser
-from db import add_message, add_user
-from utils.permission import is_member
-from aiogram import F
 from aiogram.types import ChatMemberUpdated
+
 from bot import bot
+from db import add_message, add_user
 from keyboards import get_rules_keyboard
+from utils.infoChatUser import getMessagesByUser, getInfoAboutUser
+from utils.permission import is_member
 
 events = Router(name="groupEvents")
 
@@ -41,17 +41,17 @@ async def joined_user(event: ChatMemberUpdated):
         for admin in await bot.get_chat_administrators(event.chat.id):
             if not admin.user.is_bot:
                 await bot.send_message(chat_id=admin.user.id, 
-                                    text=f"Поздравляю <b>{admin.user.username}</b>\n \n В группу {event.chat.full_name} присоединился новый пользователь:\nИмя: {event.from_user.first_name}\nФамилия: {event.from_user.last_name if event.from_user.last_name != "" else "Не записана"}\nЮзернейм: @{event.from_user.username if event.from_user.username != None else "Нет юзернейма"}")
+                                    text=f"Поздравляю <b>{admin.user.username}</b>\n \n В группу {event.chat.title} присоединился новый пользователь:\nИмя: {event.from_user.first_name}\nФамилия: {event.from_user.last_name if event.from_user.last_name != "" else "Не записана"}\nЮзернейм: @{event.from_user.username if event.from_user.username != None else "Нет юзернейма"}")
 
-@events.chat_member()
+@events.chat_member(F.old_chat_member.status.in_(["member", "administrator", "restricted"]) &
+                     (F.new_chat_member.status == "left"))
 async def left_user(event: ChatMemberUpdated):
-    if event.old_chat_member.status == 'left':
-        await bot.delete_message(event.chat.id, 
-                                event.message.message_id)
-        for admin in await bot.get_chat_administrators(event.chat.id):
-            if not admin.user.is_bot:
-                await bot.send_message(chat_id=admin.user.id, 
-                                    text=f"Пользователь <b>{event.from_user.full_name}</b> покинул группу {event.chat.full_name}")
+    await bot.delete_message(event.chat.id, 
+                            event.message.message_id)
+    for admin in await bot.get_chat_administrators(event.chat.id):
+        if not admin.user.is_bot:
+            await bot.send_message(chat_id=admin.user.id, 
+                                text=f"Пользователь <b>{event.from_user.full_name}</b> покинул группу {event.chat.title}")
 
 @events.chat_member()
 async def restricted_user(event: ChatMemberUpdated):
@@ -59,6 +59,6 @@ async def restricted_user(event: ChatMemberUpdated):
         need a make handler about this status
         Right now its not work and need fix left user in other branch
     """
-    return
+    pass
 
 #TODO need add more comamnds for enteractions with users
