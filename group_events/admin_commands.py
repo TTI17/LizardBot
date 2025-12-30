@@ -68,4 +68,28 @@ async def mute_chat_member(message: Message):
             ),
             until_date=60 * 10,
         )
-        await message.answer(text=f"Пользователь:<i>{message.reply_to_message.from_user.username}</i> замучен на 10 минут")
+        await message.answer(text=f"Пользователь:<i>{message.reply_to_message.from_user.first_name}</i> замучен на 10 минут")
+
+@admin.message(Command("unmute"))
+async def unmute_chat_member(message: Message):
+    if message.chat.type == "private":
+        await message.delete()
+        await message.answer("Данная команда работает только в группе")
+        return
+    
+    if not await is_admin(chat_id=message.chat.id, user_id=message.from_user.id):
+        await message.delete()
+        await message.answer("Для использования данной команды вам необходимо быть администратором")
+        return
+    
+    if message.reply_to_message:
+        await bot.restrict_chat_member(
+            chat_id=message.chat.id,
+            user_id=message.reply_to_message.from_user.id,
+            permissions=ChatPermissions(
+                can_send_messages=True,
+                can_send_media_messages=True,
+                can_send_other_messages=True,
+            ),
+        )
+        await message.answer(reply_to_message_id=message.message_id,text=f"Пользователь:<i>{message.reply_to_message.from_user.first_name}</i> размучен")
