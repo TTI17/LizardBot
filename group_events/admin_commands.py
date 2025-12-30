@@ -2,7 +2,6 @@ from aiogram.types import Message, ChatPermissions
 from aiogram import Router
 from aiogram.filters import Command
 from bot import bot
-import time
 from utils.permission import is_admin
 from utils.infoChatUser import getInfoAboutUser
 
@@ -67,6 +66,6 @@ async def mute_chat_member(message: Message):
                 can_send_media_messages=False,
                 can_send_other_messages=False,
             ),
-            until_date=time.time() + 60 * 10,
+            until_date=60 * 10,
         )
         await message.answer(text=f"Пользователь:<i>{message.reply_to_message.from_user.username}</i> замучен на 10 минут")
