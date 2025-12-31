@@ -93,3 +93,28 @@ async def unmute_chat_member(message: Message):
             ),
         )
         await message.answer(reply_to_message_id=message.message_id,text=f"Пользователь:<i>{message.reply_to_message.from_user.first_name}</i> размучен")
+
+@admin.message(Command("kick"))
+async def kick_chat_member(message: Message):
+    if message.chat.type == "private":
+        await message.delete()
+        await message.answer("Данная команда работает только в группе")
+        return
+    
+    if not await is_admin(chat_id=message.chat.id, user_id=message.from_user.id):
+        await message.delete()
+        await message.answer("Для использования данной команды вам необходимо быть администратором")
+        return
+    
+    if not message.reply_to_message and is_admin(chat_id=message.chat.id, user_id=message.from_user.id):
+        await message.answer("Для использования данной команды вам необходимо ответить на сообщение пользователя")
+        return 
+
+    if message.reply_to_message:
+        await bot.ban_chat_member(
+            chat_id=message.chat.id,
+            user_id=message.reply_to_message.from_user.id,
+            until_date=3600
+        )
+        await message.answer(text=f"Пользователь:<i>{message.reply_to_message.from_user.first_name}</i> кикнут администратором")
+    
