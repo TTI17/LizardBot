@@ -93,3 +93,41 @@ async def unmute_chat_member(message: Message):
             ),
         )
         await message.answer(reply_to_message_id=message.message_id,text=f"Пользователь:<i>{message.reply_to_message.from_user.first_name}</i> размучен")
+
+@admin.message(Command("kick"))
+async def kick_chat_member(message: Message):
+    if message.chat.type == "private":
+        await message.delete()
+        await message.answer("Данная команда работает только в группе")
+        return
+    
+    if not await is_admin(chat_id=message.chat.id, user_id=message.from_user.id):
+        await message.delete()
+        await message.answer("Для использования данной команды вам необходимо быть администратором")
+        return
+    
+    if not message.reply_to_message and is_admin(chat_id=message.chat.id, user_id=message.from_user.id):
+        await message.answer("Для использования данной команды вам необходимо ответить на сообщение пользователя")
+        return 
+
+    if message.reply_to_message:
+        #простая реализация kick мод с баном пользователя и мгновенным разбаном
+    
+        await bot.ban_chat_member(
+            chat_id=message.chat.id,
+            user_id=message.reply_to_message.from_user.id,
+        )
+        
+        await bot.unban_chat_member(
+            chat_id=message.chat.id,
+            user_id=message.reply_to_message.from_user.id,
+        )
+
+        await bot.send_message(chat_id=message.reply_to_message.from_user.id, text=f"Вы были кикнуты администратором группы {message.chat.title}")
+
+        for admin in await bot.get_chat_administrators(chat_id=message.chat.id):
+            if not admin.user.is_bot:
+                await bot.send_message(chat_id=admin.user.id, text=f"{message.reply_to_message.from_user.first_name} был кикнут администратором {message.from_user.first_name}")
+        
+        await message.answer(text=f"Пользователь:<i>{message.reply_to_message.from_user.first_name}</i> кикнут администратором")
+    
