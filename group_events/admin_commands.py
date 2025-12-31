@@ -111,10 +111,23 @@ async def kick_chat_member(message: Message):
         return 
 
     if message.reply_to_message:
+        #простая реализация kick мод с баном пользователя и мгновенным разбаном
+    
         await bot.ban_chat_member(
             chat_id=message.chat.id,
             user_id=message.reply_to_message.from_user.id,
-            until_date=3600
         )
+        
+        await bot.unban_chat_member(
+            chat_id=message.chat.id,
+            user_id=message.reply_to_message.from_user.id,
+        )
+
+        await bot.send_message(chat_id=message.reply_to_message.from_user.id, text=f"Вы были кикнуты администратором группы {message.chat.title}")
+
+        for admin in await bot.get_chat_administrators(chat_id=message.chat.id):
+            if not admin.user.is_bot:
+                await bot.send_message(chat_id=admin.user.id, text=f"{message.reply_to_message.from_user.first_name} был кикнут администратором {message.from_user.first_name}")
+        
         await message.answer(text=f"Пользователь:<i>{message.reply_to_message.from_user.first_name}</i> кикнут администратором")
     
