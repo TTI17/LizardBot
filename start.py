@@ -27,7 +27,7 @@ async def startChat(message: Message):
 async def greatUser(call: CallbackQuery):
     if call.message.chat.type == "private":
         global selectLang
-        selectLang = call.data
+        selectLang = "ru"
         await call.message.answer(text=get_lang(selectLang).START_TEXT)
 
     else:
@@ -49,7 +49,7 @@ async def handleHelp(message: Message):
     else:
         return     
 
-@crt.callback_query(lambda call: call.data == "/faq")
+@crt.callback_query(lambda call: call.data == "faq")
 async def get_help_by_authors(call: CallbackQuery):
     """
     Handle the /faq button click.
@@ -64,9 +64,34 @@ async def get_help_by_authors(call: CallbackQuery):
         await call.message.edit_text(text=get_lang(selectLang).FAQ_TEXT, reply_markup=get_faq_help())
     else:
         return     
-    
-    
-@crt.callback_query(lambda call: call.data == "add")
+
+@crt.callback_query(lambda call: call.data == "current_comms")
+async def get_faq_list(call: CallbackQuery):
+    if call.message.chat.type == "private":
+        await call.answer()
+        await call.message.edit_text(text=get_lang(selectLang).CURRENT_COMMANDS_TEXT, reply_markup=get_current_comms())
+    else:
+        return
+        
+@crt.callback_query(lambda call: call.data == "admin_comms")
+async def faq_admins_comms(call: CallbackQuery):
+    if call.message.chat.type == "private":
+        await call.answer()
+        await call.message.edit_text(text=get_lang(selectLang).CURRENT_ADMINS_COMMANDS_TEXT, reply_markup=get_admin_comms())
+    else:
+        return
+
+
+@crt.callback_query(lambda call: call.data == "user_comms")
+async def faq_user_comms(call: CallbackQuery):
+    if call.message.chat.type == "private":
+        await call.answer()
+        await call.message.edit_text(text=get_lang(selectLang).CURRENT_USER_COMMANDS_TEXT, reply_markup=get_user_comms())
+    else:
+        return
+
+
+@crt.callback_query(lambda call: call.data == "add_to_group")
 async def handleAdd(call: CallbackQuery):
     """
     Handle the 'Add' button click.
