@@ -1,0 +1,1 @@
+CURRENT_COMMANDS_TEXT = "My bot currently supports the following commands: To display specific commands, select the corresponding button in the menu."
