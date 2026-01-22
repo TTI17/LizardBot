@@ -30,22 +30,22 @@ def get_current_comms():
     return InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text="Команды администратора", callback_data="admin_comms")],
         [InlineKeyboardButton(text="Команды пользователя", callback_data="user_comms")],
-        [InlineKeyboardButton(text="🔙 Вернуться в FAQ", callback_data="get_faq_help")]
+        [InlineKeyboardButton(text="🔙 Вернуться в FAQ", callback_data="faq")]
     ])
 
 def get_admin_comms():
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="🔙 Вернуться в список", callback_data="get_current_comms")]
+        [InlineKeyboardButton(text="🔙 Вернуться в список", callback_data="current_comms")]
     ])
 
 def get_user_comms():
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="🔙 Вернуться в список", callback_data="get_current_comms")]
+        [InlineKeyboardButton(text="🔙 Вернуться в список", callback_data="current_comms")]
     ])
     
 def get_about_us_keyboard():
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="🔙 Вернуться в список", callback_data="get_current_comms")]
+        [InlineKeyboardButton(text="🔙 Вернуться в список", callback_data="faq")]
         ])
 #
 def start_vote():

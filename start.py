@@ -27,6 +27,7 @@ async def startChat(message: Message):
 async def greatUser(call: CallbackQuery):
     if call.message.chat.type == "private":
         global selectLang
+        selectLang = call.data
         await call.message.answer(text=get_lang(selectLang).START_TEXT)
 
     else:
